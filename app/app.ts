@@ -2,6 +2,7 @@ module app {
     var module = angular.module('angulartodo', 
                                     ["ngRoute",
                                      "ngMaterial",
+                                     "ngResource",
                                      "todoResourceMock"]);
                                      
     module.config(routeConfig);
@@ -11,16 +12,16 @@ module app {
         $routeProvider
             .when("/",
                 {
-                    controller: "taskListController",
+                    templateUrl: "/app/todo/task-list.html",
                     controllerAs: "vm",
-                    templateUrl: "app/todo/task-list.html"
-                    //template: "teste 123"
+                    //template: "<ul><li ng-repeat='task in vm.taskList'>{{task.title}}</li></ul>",
+                    controller: "taskListController"
                 })
             .when("/taskDetail/:taskId",
                 {
-                    templateUrl: "app/todo/task-detail.html",
-                    controller: "taskDetailController",
-                    controllerAs: 'vm'
+                    templateUrl: "/app/todo/task-detail.html",
+                    controllerAs: 'vm',
+                    controller: "taskDetailController"                   
                 })
             .otherwise("/");
     }

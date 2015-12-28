@@ -2,7 +2,7 @@
 <html>  
     <head>
         <meta charset="UTF-8">
-        <title>Alexandre's TODO App</title>
+        <title>Angular TODO App</title>
     
         <link rel="stylesheet" href="styles/lib/angular-material.css">
         
@@ -22,6 +22,7 @@
         
         <!--Domain-->
         <script src="dist/js/models/task.js"></script>
+        <script src="dist/js/models/task-list.js"></script>
         
         <!--Services-->
         <script src="dist/js/services/dataAccessService.js"></script>
@@ -35,9 +36,9 @@
     <body ng-app="angulartodo">        
         
         <div layout="column">
-            <md-toolbar>
+            <md-toolbar layout-padding>
                 <h2 class="md-toolbar-item md-breadcrumb md-headline">
-                    Alexandre's TODO App
+                    Angular TODO App
                 </h2>
             </md-toolbar>
             

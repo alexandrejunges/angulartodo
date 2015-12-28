@@ -1,13 +1,14 @@
 module app.services {
-    
-     interface IDataAccessService {
-         
-     }
-    
+
     interface ITodoResource extends ng.resource.IResource<app.models.Task> {
         
     }
     
+     interface IDataAccessService {
+         getTodoResource() : ng.resource.IResourceClass<ITodoResource>;
+     }
+    
+    // Service to return/persist data from/into the server
     export class DataAccessService implements IDataAccessService {
         
         static $inject = ["$resource"];
@@ -20,6 +21,7 @@ module app.services {
         }
     }
     
+    // Register the service
     angular
         .module("angulartodo")
         .service("dataAccessService", DataAccessService);

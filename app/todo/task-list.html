@@ -1,6 +1,9 @@
-<!--<ul>
-    <li ng-repeat=" task in taskList">
-        {{task.title}}
-    </li>
-</ul>-->
-teste
+<md-list>
+  <md-list-item class="md-2-line" ng-repeat="task in vm.taskList">
+    <md-checkbox ng-model="item.done"></md-checkbox>
+    <div class="md-list-item-text">
+      <h3>{{task.title}}</h3>
+      <p>{{task.description}}</p>
+    </div>
+  </md-list-item>
+</md-list>

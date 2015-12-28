@@ -7,28 +7,15 @@ module app.todo {
     mockRun.$inject = ["$httpBackend"]
     function mockRun($httpBackend: ng.IHttpBackendService) : void {
          
-        var todoList : app.models.Task[] = [];
-        var todoItem : app.models.Task;
+        var apiUrl = "/api/todo";
         
-        todoItem = new app.models.Task(1, "Mandar carro para a revisão", "", new Date(2015, 12, 29));
-        todoList.push(todoItem);
+        // Create mocked up list of tasks  
+        var todoList = CreateTodoList();
         
-        todoItem = new app.models.Task(2, "Encher o tanque", "", new Date(2015, 12, 30));
-        todoList.push(todoItem);
-        
-        todoItem = new app.models.Task(3, "Calibrar os pneus", "", new Date(2015, 12, 30));
-        todoList.push(todoItem);
-        
-        todoItem = new app.models.Task(4, "Fazer as malas", "", new Date(2015, 12, 30));
-        todoList.push(todoItem);
-        
-        todoItem = new app.models.Task(5, "Hit the road", "", new Date(2015, 12, 31));
-        todoList.push(todoItem);
-        
-        var apiUrl = "/api/todo/";
-        
+        // When the API url is hit, the list of tasks is returned. 
         $httpBackend.whenGET(apiUrl).respond(todoList);
         
+        // Endpoint to return a specific task by its ID. 
         var editingRegex = new RegExp(apiUrl + "/[0-9][0-9]*", '');
         $httpBackend.whenGET(editingRegex).respond(function(method, url, data) {
             var todo = { "id" : 0 };
@@ -48,10 +35,24 @@ module app.todo {
             return [200, todo, {}];
         });
         
-        $httpBackend.whenGET('/api/').respond(function(method, url, data) {
+        $httpBackend.whenGET('/api').respond(function(method, url, data) {
             return [200, todoList, {}]; 
         });
         
-        $httpBackend.whenGET('/app/').passThrough();
+        // When the url has 'app', the request pass
+        $httpBackend.whenGET(/^\/app\//).passThrough();
+    }
+    
+    function CreateTodoList() : app.models.Task[] {
+        
+        var todoList : app.models.Task[] = [];
+        
+        todoList.push(new app.models.Task(1,"Mandar carro para a revisão", "", new Date(2015, 12, 29)));        
+        todoList.push(new app.models.Task(2, "Encher o tanque", "", new Date(2015, 12, 30)));       
+        todoList.push(new app.models.Task(3, "Calibrar os pneus", "", new Date(2015, 12, 30)));       
+        todoList.push(new app.models.Task(4, "Fazer as malas", "", new Date(2015, 12, 30)));      
+        todoList.push(new app.models.Task(5, "Hit the road", "", new Date(2015, 12, 31)));
+        
+        return todoList;
     }
 }
