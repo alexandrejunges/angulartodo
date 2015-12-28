@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "outDir": "dist/js"
+    },
+    "files": [
+        "app/models/task.ts",
+        "app/services/dataAccessService.ts",
+        "app/services/todoResourceMock.ts",
+        "app/todo/task-detail.Controller.ts",
+        "app/todo/task-list.Controller.ts",
+        "app/app.ts"
+    ]
+}

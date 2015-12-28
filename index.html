@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>  
+    <head>
+        <meta charset="UTF-8">
+        <title>Alexandre's TODO App</title>
+    
+        <link rel="stylesheet" href="styles/lib/angular-material.css">
+        
+        <!--Library Scripts-->
+        <script src="scripts/angular.js"></script>
+        <script src="scripts/angular-animate.js"></script>
+        <script src="scripts/angular-aria.js"></script>
+        <script src="scripts/angular-messages.js"></script>
+        <script src="scripts/angular-resource.js"></script>
+        <script src="scripts/angular-mocks.js"></script>
+        <script src="scripts/angular-route.js"></script>
+        
+        <script src="scripts/angular-material.js"></script>
+        
+        <!--App Script -->
+        <script src="dist/js/app.js"></script>
+        
+        <!--Domain-->
+        <script src="dist/js/models/task.js"></script>
+        
+        <!--Services-->
+        <script src="dist/js/services/dataAccessService.js"></script>
+        <script src="dist/js/services/todoResourceMock.js"></script>
+        
+        <!--Controllers-->
+        <script src="dist/js/todo/task-detail.Controller.js"></script>
+        <script src="dist/js/todo/task-list.Controller.js"></script>
+    </head>
+    
+    <body ng-app="angulartodo">        
+        
+        <div layout="column">
+            <md-toolbar>
+                <h2 class="md-toolbar-item md-breadcrumb md-headline">
+                    Alexandre's TODO App
+                </h2>
+            </md-toolbar>
+            
+            <div ng-view></div>
+        </div>        
+    </body>
+</html>
