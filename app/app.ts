@@ -12,13 +12,13 @@ module app {
         $routeProvider
             .when("/",
                 {
-                    templateUrl: "/app/todo/task-list.html",
+                    templateUrl: "/app/components/task-list/task-list.html",
                     controllerAs: "vm",
                     controller: "taskListController"
                 })
             .when("/taskDetail/:taskId",
                 {
-                    templateUrl: "/app/todo/task-detail.html",
+                    templateUrl: "/app/components/task-detail/task-detail.html",
                     controllerAs: 'vm',
                     controller: "taskDetailController"                   
                 })
