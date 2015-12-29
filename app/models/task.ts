@@ -3,13 +3,22 @@ module app.models {
         id: number;
         title: string;
         dueDate: Date;
-        isDone: boolean
+        isDone: boolean;
         
         constructor(id: number, title: string, dueDate: Date, isDone: boolean) {
             this.id = id;
             this.title = title;
             this.dueDate = dueDate;
-            this.isDone = isDone; 
+            this.isDone = isDone;
+        }
+        
+        isDelayed() {            
+            return !this.isDone && 
+                this.dueDate.getTime() < new Date().getTime();
+        }
+        
+        isDueToday() {
+            return this.dueDate.getTime() == new Date().getTime();
         }
     }
 }

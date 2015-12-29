@@ -2,7 +2,7 @@
     <!--<input placeholder="Enter a search term..." ng-model="searchTerm" type="text"/>-->
     <md-autocomplete 
         md-search-text="searchText" 
-        md-items="task in vm.search(searchText)" 
+        md-items="task in vm.filter(searchText)" 
         md-item-text="task.title"
         placeholder="Enter a search term...">
         <md-item-template>
@@ -16,14 +16,14 @@
 
 <md-list>
     <!--<todo-list-item title={{task.title}} due-date={{task.dueDate}} is-done={{task.isDone}}></todo-list-item>-->
-    <md-list-item class="md-2-line" ng-repeat="task in vm.taskList | filter:searchText">
+    <md-list-item class="md-2-line" ng-repeat="task in vm.taskList | filter:searchText" ng-style="{'background-color': task.isDone ? '#72d572' : task.isDelayed() ?  '#DE4545' : task.isDueToday() ? '#E6E66A' : 'transparent' }">
         <md-checkbox ng-model="task.isDone"></md-checkbox>
         <div class="md-list-item-text">
-            <h3>{{task.title}}</h3>
+            <h3>{{ task.title }}</h3>
             <!--More info about i18n: https://docs.angularjs.org/guide/i18n-->
-            <p>Due to: {{task.dueDate | date }}</p>
+            <p>Due to: {{ task.dueDate | date }}</p>
         </div>
-        <div>
+        <div class="md-list-item-text" style="text-align: right;">
             <md-button class="md-fab md-mini" aria-label="Edit">
                 <md-icon md-svg-src="/images/edit.svg"></md-icon>
             </md-button>
