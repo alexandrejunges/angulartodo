@@ -1,4 +1,4 @@
-module app.todo {
+module app.components {
        
     export class TaskListController {
         
@@ -15,24 +15,42 @@ module app.todo {
             
             var todoResource = dataAccessService.getTodoResource();
             todoResource.query((data: app.models.Task[]) => {
-                this.taskList = data;
+                this.taskList = data.sort(function (a, b) { return a.dueDate.getDate() - b.dueDate.getDate() });
             });
         }
         
+        getColor(task : app.models.Task) {
+            return task.isDone ? '#72d572' : task.isDelayed() ? '#DE4545' : task.isDueToday() ? '#E6E66A' : 'transparent'
+        }
+        
         filter (term) {
-            var deferred = this.$q.defer<any>();
-            deferred.resolve(this.searchService.search(this.taskList, term,  "title"));           
+            var deferred = this.$q.defer<any>();                                  
+            deferred.resolve(this.searchService.search(this.taskList, term,  "title"));                    
             return deferred.promise;
-        }        
+        }
                 
-        // deleteTask () {
-        //     dlg = $dialogs.confirm('Please Confirm','Is this awesome or what?');
-        //     dlg.result.then(function(btn){
-        //         $scope.confirmed = 'You thought this quite awesome!';
-        //     },function(btn){
-        //         $scope.confirmed = 'Shame on you for not thinking this is awesome!';
-        //     });
-        //}
+        deleteTask (taskToDelete) {           
+            // TODO - Adicionar confirmação
+            
+            var deletedTask;
+            this.taskList.forEach(function(task, index, array) {
+                if (taskToDelete.id == task.id) {
+                    deletedTask = task;
+                    array.splice(index, 1);
+                }
+            });
+            
+            debugger;
+            //deletedTask.$delete();
+            var todoResource = this.dataAccessService.getTodoResource();         
+             todoResource.delete({ taskId: deletedTask.id }, function() {
+                 // callback
+             });
+        }
+        
+        // $scope.$watch('todos', function () {
+        //     todoService.refresh($scope.todos);
+        // }, true);
     }
     
     angular

@@ -10,23 +10,22 @@ module app.mock {
         var apiUrl = "/api/todo";
         
         // Create mocked up list of tasks  
-        var todoList = CreateTodoList();
+        var taskList = CreateTodoList();
 
         // When the API url is hit, the list of tasks is returned. 
-        $httpBackend.whenGET(apiUrl).respond(todoList);
+        $httpBackend.whenGET(apiUrl).respond(taskList);
         
         // Endpoint to return a specific task by its ID. 
         var editingRegex = new RegExp(apiUrl + "/[0-9][0-9]*", '');
         $httpBackend.whenGET(editingRegex).respond(function(method, url, data) {
-            var todo = { "id" : 0 };
-            var parameters = url.split('/');
-            var length = parameters.length;
-            var id = +parameters[length - 1];
+            
+            var todo = { id: 0 };
+            var id = getIdFromUrl(url);
             
             if (id > 0) {
-                for (var i = 0; i < todoList.length; i++) {
-                    if (todoList[i].id == id) {
-                        todo = todoList[i];
+                for (var i = 0; i < taskList.length; i++) {
+                    if (taskList[i].id == id) {
+                        todo = taskList[i];
                         break;
                     }
                 }
@@ -35,8 +34,47 @@ module app.mock {
             return [200, todo, {}];
         });
         
+        // Get
         $httpBackend.whenGET('/api').respond(function(method, url, data) {
-            return [200, todoList, {}]; 
+            return [200, taskList, {}]; 
+        });
+                
+        // Post
+        $httpBackend.whenPOST('/api/todo').respond(function(method, url, data: string, headers){
+            taskList.push(angular.fromJson(data));
+            return [200, {}, {}];
+        });
+        
+        // Put
+        $httpBackend.whenPUT(editingRegex).respond(function(method, url, data: string, headers){
+            
+            var id = getIdFromUrl(url);
+            var editedTask = angular.fromJson(data);            
+            
+            taskList.forEach(function(task, index, array) {
+                if (task.id == id) {
+                    array.splice(index, 1);
+                    array.push(editedTask);
+                    
+                    return [200, {}, {}];
+                }
+            });
+            
+            return [200, {}, {}];
+        });
+        
+        // Delete
+        $httpBackend.whenDELETE(editingRegex).respond(function(method, url, data: number, headers) {
+
+            var id = getIdFromUrl(url);
+            taskList.forEach(function(task, index, array) {
+                if (task.id == id) {
+                    array.splice(index, 1);
+                    return [200, {}, {}];
+                }
+            });
+
+            return [200, {}, {}];
         });
         
         // When the url has 'app', the request pass
@@ -49,12 +87,19 @@ module app.mock {
         
         var todoList : app.models.Task[] = [];
         
-        todoList.push(new app.models.Task(1,"Mandar carro para a revisão", new Date(2015, 12, 29), true));        
-        todoList.push(new app.models.Task(2, "Encher o tanque", new Date(2015, 12, 30), false));       
-        todoList.push(new app.models.Task(3, "Calibrar os pneus", new Date(2015, 12, 30), false));       
-        todoList.push(new app.models.Task(4, "Fazer as malas", new Date(2015, 12, 30), false));      
-        todoList.push(new app.models.Task(5, "Hit the road", new Date(2015, 12, 31), false));
+        
+        todoList.push(new app.models.Task(2, "Encher o tanque", new Date(2015, 11, 29, 0, 0, 0, 0), false));       
+        todoList.push(new app.models.Task(3, "Calibrar os pneus", new Date(2015, 11, 30, 0, 0, 0, 0), false));       
+        todoList.push(new app.models.Task(4, "Fazer as malas", new Date(2015, 11, 30, 0, 0, 0, 0), false));
+        todoList.push(new app.models.Task(1, "Mandar carro para a revisão", new Date(2015, 11, 28, 0, 0, 0, 0), true));              
+        todoList.push(new app.models.Task(5, "Hit the road", new Date(2015, 11, 31, 0, 0, 0, 0), false));
         
         return todoList;
+    }
+    
+    function getIdFromUrl(url: string) : number {
+        var parameters = url.split('/');
+        var length = parameters.length;
+        return +parameters[length - 1];
     }
 }

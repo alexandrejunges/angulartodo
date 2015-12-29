@@ -1,4 +1,4 @@
-module app.todo {
+module app.components {
     
     interface ITodoParams extends ng.route.IRouteParamsService {
         taskId: number;

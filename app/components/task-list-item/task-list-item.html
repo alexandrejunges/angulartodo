@@ -1,3 +1,15 @@
-<div>
-    
+<!--ng-style="{'background-color': vm.getColor(task) }">-->
+<md-checkbox ng-model="vm.isDone"></md-checkbox>
+<div class="md-list-item-text">
+    <h3>{{ vm.title }}</h3>
+    <!--More info about i18n: https://docs.angularjs.org/guide/i18n-->
+    <p>Due to: {{ vm.dueDate | date }}</p>
+</div>
+<div class="md-list-item-text" style="text-align: right;">
+    <md-button class="md-fab md-mini" aria-label="Edit">
+        <md-icon md-svg-src="/images/edit.svg"></md-icon>
+    </md-button>
+    <md-button class="md-fab md-mini md-warn" aria-label="Remove" confirm-click="Are you sure you want delete this taks?" ng-click="vm.deleteTask(vm.id)">
+        <md-icon md-svg-src="/images/delete.svg"></md-icon>    
+    </md-button>
 </div>

@@ -1,0 +1,15 @@
+  <md-input-container>
+      Creating a task...
+      
+    <label>Title</label>
+    <input name="title" ng-model="task.title" required>
+    <div ng-messages="userForm.lastName.$error">
+        <div ng-message="required">Title is required!</div>
+    </div>
+    
+    <label>Due Date</label>
+    <input name="dueDate" ng-model="task.dueDate" required>
+    <div ng-messages="userForm.lastName.$error">
+        <div ng-message="required">Due date is required!</div>
+    </div>
+  </md-input-container>
