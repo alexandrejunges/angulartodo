@@ -7,8 +7,9 @@
         "app/models/task.ts",
         "app/services/dataAccessService.ts",
         "app/services/todoResourceMock.ts",
-        "app/todo/task-detail.Controller.ts",
         "app/todo/task-list.Controller.ts",
+        "app/todo/task-list-item.Controller.ts",
+        "app/todo/task-detail.Controller.ts",
         "app/app.ts"
     ]
 }

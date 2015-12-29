@@ -14,7 +14,6 @@ module app {
                 {
                     templateUrl: "/app/todo/task-list.html",
                     controllerAs: "vm",
-                    //template: "<ul><li ng-repeat='task in vm.taskList'>{{task.title}}</li></ul>",
                     controller: "taskListController"
                 })
             .when("/taskDetail/:taskId",

@@ -1,9 +1,19 @@
 <md-list>
+    <!--<todo-list-item title={{task.title}} due-date={{task.dueDate}} is-done={{task.isDone}}></todo-list-item>-->
   <md-list-item class="md-2-line" ng-repeat="task in vm.taskList">
-    <md-checkbox ng-model="item.done"></md-checkbox>
+    <md-checkbox ng-model="task.done"></md-checkbox>
     <div class="md-list-item-text">
       <h3>{{task.title}}</h3>
-      <p>{{task.description}}</p>
+      <!--More info about i18n: https://docs.angularjs.org/guide/i18n-->
+      <p>Due to: {{task.dueDate | date }}</p>
+    </div>
+    <div>
+        <md-button class="md-fab md-mini" aria-label="Edit">
+            <md-icon md-svg-src="/images/edit.svg"></md-icon>
+        </md-button>
+        <md-button class="md-fab md-mini" aria-label="Remove">
+            <md-icon md-svg-src="/images/delete.svg"></md-icon>    
+        </md-button>
     </div>
   </md-list-item>
 </md-list>

@@ -22,7 +22,6 @@ module app.services {
     }
     
     // Register the service
-    angular
-        .module("angulartodo")
+    angular.module('angulartodo')
         .service("dataAccessService", DataAccessService);
 }

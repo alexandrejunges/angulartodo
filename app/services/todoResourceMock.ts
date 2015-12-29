@@ -41,17 +41,19 @@ module app.todo {
         
         // When the url has 'app', the request pass
         $httpBackend.whenGET(/^\/app\//).passThrough();
+        
+        $httpBackend.whenGET(/^\/images\//).passThrough();
     }
     
     function CreateTodoList() : app.models.Task[] {
         
         var todoList : app.models.Task[] = [];
         
-        todoList.push(new app.models.Task(1,"Mandar carro para a revisão", "", new Date(2015, 12, 29)));        
-        todoList.push(new app.models.Task(2, "Encher o tanque", "", new Date(2015, 12, 30)));       
-        todoList.push(new app.models.Task(3, "Calibrar os pneus", "", new Date(2015, 12, 30)));       
-        todoList.push(new app.models.Task(4, "Fazer as malas", "", new Date(2015, 12, 30)));      
-        todoList.push(new app.models.Task(5, "Hit the road", "", new Date(2015, 12, 31)));
+        todoList.push(new app.models.Task(1,"Mandar carro para a revisão", new Date(2015, 12, 29), true));        
+        todoList.push(new app.models.Task(2, "Encher o tanque", new Date(2015, 12, 30), false));       
+        todoList.push(new app.models.Task(3, "Calibrar os pneus", new Date(2015, 12, 30), false));       
+        todoList.push(new app.models.Task(4, "Fazer as malas", new Date(2015, 12, 30), false));      
+        todoList.push(new app.models.Task(5, "Hit the road", new Date(2015, 12, 31), false));
         
         return todoList;
     }
