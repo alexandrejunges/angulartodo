@@ -1,4 +1,4 @@
-module app.todo {
+module app.mock {
  
     var mockResouce = angular.module("todoResourceMock", ["ngMockE2E"]);
     
@@ -11,7 +11,7 @@ module app.todo {
         
         // Create mocked up list of tasks  
         var todoList = CreateTodoList();
-        
+
         // When the API url is hit, the list of tasks is returned. 
         $httpBackend.whenGET(apiUrl).respond(todoList);
         

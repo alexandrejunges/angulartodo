@@ -1,11 +1,13 @@
 module app.todo {
-    
+       
     export class TaskListController {
         
         taskList: app.models.Task[];
         
-        static $inject = ["dataAccessService"];
-        constructor(private dataAccessService: app.services.DataAccessService) {
+        static $inject = ["dataAccessService", "searchService", "$q"];
+        constructor(private dataAccessService: app.services.DataAccessService,
+                    private searchService: app.services.SearchService,
+                    private $q: ng.IQService) {
             
             this.taskList = [];
             
@@ -13,6 +15,12 @@ module app.todo {
             todoResource.query((data: app.models.Task[]) => {
                 this.taskList = data;
             });
+        }
+        
+        search(term) {
+            var deferred = this.$q.defer<any>();
+            deferred.resolve(this.searchService.search(this.taskList, term,  "title"));           
+            return deferred.promise;
         }
     }
     

@@ -3,13 +3,10 @@
         "target": "es5",
         "outDir": "dist/js"
     },
-    "files": [
-        "app/models/task.ts",
-        "app/services/dataAccessService.ts",
-        "app/services/todoResourceMock.ts",
-        "app/components/task-list/task-list.Controller.ts",
-        "app/components/task-list-item/task-list-item.Controller.ts",
-        "app/components/task-detail/task-detail.Controller.ts",
-        "app/app.ts"
+    "exclude": [
+        "node_modules",
+        "dist",
+        "scripts",
+        "typings"
     ]
 }

@@ -1,19 +1,35 @@
+<div>
+    <!--<input placeholder="Enter a search term..." ng-model="searchTerm" type="text"/>-->
+    <md-autocomplete 
+        md-search-text="searchText" 
+        md-items="task in vm.search(searchText)" 
+        md-item-text="task.title"
+        placeholder="Enter a search term...">
+        <md-item-template>
+            <span md-highlight-text="searchText">{{task.title}}</span>
+        </md-item-template>
+        <md-not-found>
+            No matches found.
+        </md-not-found>
+    </md-autocomplete>
+</div>
+
 <md-list>
     <!--<todo-list-item title={{task.title}} due-date={{task.dueDate}} is-done={{task.isDone}}></todo-list-item>-->
-  <md-list-item class="md-2-line" ng-repeat="task in vm.taskList">
-    <md-checkbox ng-model="task.done"></md-checkbox>
-    <div class="md-list-item-text">
-      <h3>{{task.title}}</h3>
-      <!--More info about i18n: https://docs.angularjs.org/guide/i18n-->
-      <p>Due to: {{task.dueDate | date }}</p>
-    </div>
-    <div>
-        <md-button class="md-fab md-mini" aria-label="Edit">
-            <md-icon md-svg-src="/images/edit.svg"></md-icon>
-        </md-button>
-        <md-button class="md-fab md-mini" aria-label="Remove">
-            <md-icon md-svg-src="/images/delete.svg"></md-icon>    
-        </md-button>
-    </div>
-  </md-list-item>
+    <md-list-item class="md-2-line" ng-repeat="task in vm.taskList | filter:searchText">
+        <md-checkbox ng-model="task.isDone"></md-checkbox>
+        <div class="md-list-item-text">
+            <h3>{{task.title}}</h3>
+            <!--More info about i18n: https://docs.angularjs.org/guide/i18n-->
+            <p>Due to: {{task.dueDate | date }}</p>
+        </div>
+        <div>
+            <md-button class="md-fab md-mini" aria-label="Edit">
+                <md-icon md-svg-src="/images/edit.svg"></md-icon>
+            </md-button>
+            <md-button class="md-fab md-mini md-warn" aria-label="Remove">
+                <md-icon md-svg-src="/images/delete.svg"></md-icon>    
+            </md-button>
+        </div>
+    </md-list-item>
 </md-list>

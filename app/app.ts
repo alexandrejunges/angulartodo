@@ -6,7 +6,9 @@ module app {
                                      "todoResourceMock"]);
                                      
     module.config(routeConfig);
+    module.config(themeConfig);
    
+    // Configure app routes
     routeConfig.$inject = ["$routeProvider"];
     function routeConfig($routeProvider: ng.route.IRouteProvider): void {
         $routeProvider
@@ -20,8 +22,16 @@ module app {
                 {
                     templateUrl: "/app/components/task-detail/task-detail.html",
                     controllerAs: 'vm',
-                    controller: "taskDetailController"                   
+                    controller: "taskDetailController"
                 })
             .otherwise("/");
+    }
+    
+    function themeConfig($mdThemingProvider) {
+        $mdThemingProvider.theme('default')
+            .primaryPalette('blue')
+            .accentPalette('green')
+            .warnPalette('red')
+            .backgroundPalette('blue-grey');
     }
 }
