@@ -46,16 +46,14 @@ module app.mock {
         });
         
         // Put
-        $httpBackend.whenPUT(editingRegex).respond(function(method, url, data: string, headers){
-            
+        $httpBackend.whenPUT(editingRegex).respond(function(method, url, data: string, headers){           
             var id = getIdFromUrl(url);
             var editedTask = angular.fromJson(data);            
             
             taskList.forEach(function(task, index, array) {
                 if (task.id == id) {
                     array.splice(index, 1);
-                    array.push(editedTask);
-                    
+                    array.push(new app.models.Task(editedTask.id, editedTask.title, editedTask.dueDate, editedTask.isDone));
                     return [200, {}, {}];
                 }
             });
@@ -80,6 +78,7 @@ module app.mock {
         // When the url has 'app', the request pass
         $httpBackend.whenGET(/^\/app\//).passThrough();
         
+        // When the url has 'images', the request pass
         $httpBackend.whenGET(/^\/images\//).passThrough();
     }
     

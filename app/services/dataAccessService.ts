@@ -17,7 +17,24 @@ module app.services {
         }
         
         getTodoResource() : ng.resource.IResourceClass<ITodoResource> {
-            return this.$resource("/api/todo/:taskId");
+            var resource = this.$resource("/api/todo/:taskId", {}, {
+                save: {
+                    method: 'POST'
+                },
+                update: {
+                    method: 'PUT'
+                }
+            });
+            
+            resource.prototype.$save = function() {
+                if (!this.id) {
+                    return this.$create();
+                } else {
+                    return this.$update({taskId: this.id});
+                }
+            };
+            
+            return resource;
         }
     }
     

@@ -9,7 +9,7 @@ module app.directives {
                         var message = attrs.confirmClick || "Are you sure?";
                         element.bind('click', function (event) {
                             if (!confirm(message)) {
-                                event.stBopImmediatePropagation();
+                                event.stopImmediatePropagation();
                                 event.preventDefault;
                             }
                         });

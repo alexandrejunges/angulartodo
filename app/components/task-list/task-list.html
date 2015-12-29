@@ -1,6 +1,13 @@
 <div>
+    <div>
+        <md-button class="md-raised md-fab md-mini md-primary" aria-label="Novo">
+            <md-icon md-svg-src="/images/add.svg" alt="Novo"></md-icon>
+        </md-button>
+    </div>
+    <div>
+        <div></div>   
+    </div>
    
-    <!--<input placeholder="Enter a search term..." ng-model="searchTerm" type="text"/>-->
     <md-autocomplete 
         md-search-text="searchText" 
         md-items="task in vm.filter(searchText)" 
@@ -16,14 +23,13 @@
 </div>
 
 <md-list>
-    <!--<todo-list-item title={{task.title}} due-date={{task.dueDate}} is-done={{task.isDone}}></todo-list-item>-->
     <!--ng-style="{'background-color': task.isDone ? '#72d572' : task.isDelayed ? '#DE4545' : task.idDueToday ? '#E6E66A' : 'transparent' }">-->
-    <md-list-item class="md-2-line" ng-repeat="task in vm.taskList | filter: searchText"> 
+    <md-list-item class="md-2-line" ng-repeat="task in vm.taskList | filter: searchText">
+        <!--<task-list-item id="{{task.id}}" title="{{task.title}}" dueDate="{{task.dueDate}}" isDone="{{task.isDone}}"></task-list-item>-->
         <!--ng-style="{'background-color': vm.getColor(task) }">-->
-        <md-checkbox ng-model="task.isDone"></md-checkbox>
+        <md-checkbox ng-model="task.isDone" ng-change="vm.isDoneChanged(task)"></md-checkbox>
         <div class="md-list-item-text">
             <h3>{{ task.title }}</h3>
-            <!--More info about i18n: https://docs.angularjs.org/guide/i18n-->
             <p>Due to: {{ task.dueDate | date }}</p>
         </div>
         <div class="md-list-item-text" style="text-align: right;">

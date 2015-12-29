@@ -5,10 +5,11 @@ module app.components {
         taskList: app.models.Task[];
         searchText: string;
         
-        static $inject = ["dataAccessService", "searchService", "$q"];
+        static $inject = ["dataAccessService", "searchService", "$q", "$mdToast"];
         constructor(private dataAccessService: app.services.DataAccessService,
                     private searchService: app.services.SearchService,
-                    private $q: ng.IQService) {
+                    private $q: ng.IQService,
+                    private $mdToast: any) {
             
             this.taskList = [];
             this.searchText = null;
@@ -28,10 +29,18 @@ module app.components {
             deferred.resolve(this.searchService.search(this.taskList, term,  "title"));                    
             return deferred.promise;
         }
-                
-        deleteTask (taskToDelete) {           
-            // TODO - Adicionar confirmação
+        
+        isDoneChanged (editedTask : app.models.Task) {
+            var self = this;
             
+            var todoResource = this.dataAccessService.getTodoResource();         
+             todoResource.save({ taskId: editedTask.id }, function() {
+                self.$mdToast.showSimple("Task marked as " +  (editedTask.isDone ? "done" : "undone") + " successfully");
+             });  
+        }
+                
+        deleteTask (taskToDelete) {
+           
             var deletedTask;
             this.taskList.forEach(function(task, index, array) {
                 if (taskToDelete.id == task.id) {
@@ -40,17 +49,13 @@ module app.components {
                 }
             });
             
-            debugger;
-            //deletedTask.$delete();
+            var self = this;
+            
             var todoResource = this.dataAccessService.getTodoResource();         
              todoResource.delete({ taskId: deletedTask.id }, function() {
-                 // callback
+                self.$mdToast.showSimple('Task removed successfully');
              });
         }
-        
-        // $scope.$watch('todos', function () {
-        //     todoService.refresh($scope.todos);
-        // }, true);
     }
     
     angular
