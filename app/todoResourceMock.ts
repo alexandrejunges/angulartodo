@@ -40,13 +40,15 @@ module app.mock {
         });
                 
         // Post
-        $httpBackend.whenPOST('/api/todo').respond(function(method, url, data: string, headers){
-            taskList.push(angular.fromJson(data));
+        $httpBackend.whenPOST(apiUrl).respond(function(method, url, data: string, headers){
+            var newTask = angular.fromJson(data);
+            new app.models.Task(newTask.id, newTask.title, newTask.dueDate, newTask.isDone)
+            taskList.push(newTask);
             return [200, {}, {}];
         });
         
         // Put
-        $httpBackend.whenPUT(editingRegex).respond(function(method, url, data: string, headers){           
+        $httpBackend.whenPUT(editingRegex).respond(function(method, url, data: string, headers){                       
             var id = getIdFromUrl(url);
             var editedTask = angular.fromJson(data);            
             
@@ -62,7 +64,7 @@ module app.mock {
         });
         
         // Delete
-        $httpBackend.whenDELETE(editingRegex).respond(function(method, url, data: number, headers) {
+        $httpBackend.whenDELETE(editingRegex).respond(function(method, url, data, headers) {
 
             var id = getIdFromUrl(url);
             taskList.forEach(function(task, index, array) {
@@ -73,7 +75,7 @@ module app.mock {
             });
 
             return [200, {}, {}];
-        });
+        });        
         
         // When the url has 'app', the request pass
         $httpBackend.whenGET(/^\/app\//).passThrough();

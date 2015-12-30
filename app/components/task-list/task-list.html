@@ -1,11 +1,20 @@
 <div>
-    <div>
-        <md-button class="md-raised md-fab md-mini md-primary" aria-label="Novo">
-            <md-icon md-svg-src="/images/add.svg" alt="Novo"></md-icon>
-        </md-button>
-    </div>
-    <div>
-        <div></div>   
+    <div layout="row" layout-wrap layout-align="space-between end">
+        <div layout="row" layout-align="center center">
+            <md-button class="md-raised md-fab md-mini md-primary" aria-label="New">
+                <md-icon md-svg-src="/images/add.svg"></md-icon>
+            </md-button>
+            <md-button class="md-raised md-fab md-mini" aria-label="Refresh" ng-click="vm.loadTask()">
+                <md-icon md-svg-src="/images/refresh.svg"></md-icon>
+            </md-button>
+            
+            <md-button class="md-mini" aria-label="emove done tasks" confirm-click="Are you sure you want delete all done tasks?" ng-click="vm.deleteAllDoneTasks()">
+                Remove done tasks
+            </md-button>
+        </div>
+        <div layout="row" layout-align="center center" style="padding-right: 10px">
+            <md-checkbox ng-model="vm.showDoneTasks" aria-label="Show done tasks">Show done tasks</md-checkbox>
+        </div>
     </div>
    
     <md-autocomplete 
@@ -17,14 +26,13 @@
             <span md-highlight-text="searchText">{{ task.title }}</span>
         </md-item-template>
         <md-not-found>
-            No matches found.
+            No task found.
         </md-not-found>
     </md-autocomplete>
 </div>
 
 <md-list>
-    <!--ng-style="{'background-color': task.isDone ? '#72d572' : task.isDelayed ? '#DE4545' : task.idDueToday ? '#E6E66A' : 'transparent' }">-->
-    <md-list-item class="md-2-line" ng-repeat="task in vm.taskList | filter: searchText">
+    <md-list-item class="md-2-line" ng-click="doSomethingElse()" ng-repeat="task in vm.taskList | filter: searchText || '' | filter: (!vm.showDoneTasks || '') && {isDone: false}">
         <!--<task-list-item id="{{task.id}}" title="{{task.title}}" dueDate="{{task.dueDate}}" isDone="{{task.isDone}}"></task-list-item>-->
         <!--ng-style="{'background-color': vm.getColor(task) }">-->
         <md-checkbox ng-model="task.isDone" ng-change="vm.isDoneChanged(task)"></md-checkbox>
@@ -33,10 +41,10 @@
             <p>Due to: {{ task.dueDate | date }}</p>
         </div>
         <div class="md-list-item-text" style="text-align: right;">
-            <md-button class="md-fab md-mini" aria-label="Edit">
+            <md-button class="md-fab md-mini" aria-label="Edit" ng-disabled="task.isDone">
                 <md-icon md-svg-src="/images/edit.svg"></md-icon>
             </md-button>
-            <md-button class="md-fab md-mini md-warn" aria-label="Remove" confirm-click="Are you sure you want delete this taks?" ng-click="vm.deleteTask(task)">
+            <md-button class="md-fab md-mini md-warn" aria-label="Remove" confirm-click="Are you sure you want delete this task?" ng-click="vm.deleteTask(task)" ng-disabled="task.isDone">
                 <md-icon md-svg-src="/images/delete.svg"></md-icon>    
             </md-button>
         </div>

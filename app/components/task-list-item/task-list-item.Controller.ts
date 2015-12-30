@@ -3,7 +3,7 @@ module app.components {
      export class TaskListItemController {
 
          constructor (id, title, dueDate, isDone) {
-             debugger;
+             
          }
     }
     
