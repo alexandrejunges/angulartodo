@@ -28,10 +28,8 @@ module app {
     }
     
     function themeConfig($mdThemingProvider) {
-        $mdThemingProvider.theme('default')
-            .primaryPalette('blue')
-            .accentPalette('green')
-            .warnPalette('red')
-            .backgroundPalette('blue-grey');
+         $mdThemingProvider.theme('default')
+             .accentPalette('green')
+             .backgroundPalette('blue-grey');
     }
 }

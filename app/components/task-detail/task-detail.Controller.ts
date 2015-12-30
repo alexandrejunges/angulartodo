@@ -12,11 +12,16 @@ module app.components {
         constructor (private $routeParams : ITodoParams,
                      private dataAccessService: app.services.DataAccessService) {
             
-            var todoResource = dataAccessService.getTodoResource();
-            todoResource.get({taskId: $routeParams.taskId}, 
-                (data: app.models.Task) => {
-                   this.task = data;
-                });            
+            if($routeParams.taskId) {
+                var todoResource = dataAccessService.getTodoResource();
+                todoResource.get({taskId: $routeParams.taskId}, 
+                    (data: app.models.Task) => {
+                    this.task = data;
+                    });            
+            }
+            else {
+                task = new app.models.Task(null, "")
+            }
         }
     }
     

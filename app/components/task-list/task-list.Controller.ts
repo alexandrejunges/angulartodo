@@ -4,7 +4,7 @@ module app.components {
         
         taskList: app.models.Task[];
         searchText: string;
-        showDoneTasks: boolean;
+        hideDoneTasks: boolean;
         
         static $inject = ["dataAccessService", "searchService", "$q", "$mdToast"];
         constructor(private dataAccessService: app.services.DataAccessService,
@@ -13,8 +13,9 @@ module app.components {
                     private $mdToast: any) {
             
             this.taskList = [];
+            
             this.searchText = '';
-            this.showDoneTasks = true;
+            this.hideDoneTasks = false;
             
             this.loadTasks();
         }
@@ -55,8 +56,6 @@ module app.components {
         deleteAllDoneTasks() {
             var self = this;
             var promises = [];
-
-            debugger;
             
             var todoResource = this.dataAccessService.getTodoResource();
 
