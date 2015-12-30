@@ -25,12 +25,12 @@ module app.directives {
                             })
                                 .closeTo({
                                 left: 1500
-                            });                            
-              
+                            }); 
+                                                        
                         element.bind('click', function (event) {
                                         
                             event.stopImmediatePropagation();
-                            event.preventDefault;
+                            event.preventDefault();
                                                             
                             $mdDialog.show(confirm).then(function() {
                                 if(clickAction) {
