@@ -42,7 +42,19 @@ module app.mock {
         // Post
         $httpBackend.whenPOST(apiUrl).respond(function(method, url, data: string, headers){
             var newTask = angular.fromJson(data);
-            new app.models.Task(newTask.id, newTask.title, newTask.dueDate, newTask.isDone)
+            
+            var lastId = 0;
+            var n = taskList.length;
+            
+            for (var i = 0; i != n; ++i) {
+                if (taskList[i].id > lastId) {
+                    lastId = taskList[i].id;
+                }
+            }
+
+            newTask.id = lastId + 1;
+            
+            new app.models.Task(newTask.id, newTask.title, new Date(newTask.dueDate), newTask.isDone)
             taskList.push(newTask);
             return [200, {}, {}];
         });
@@ -55,7 +67,7 @@ module app.mock {
             taskList.forEach(function(task, index, array) {
                 if (task.id == id) {
                     array.splice(index, 1);
-                    array.push(new app.models.Task(editedTask.id, editedTask.title, editedTask.dueDate, editedTask.isDone));
+                    array.push(new app.models.Task(editedTask.id, editedTask.title, new Date(editedTask.dueDate), editedTask.isDone));
                     return [200, {}, {}];
                 }
             });
@@ -87,7 +99,6 @@ module app.mock {
     function CreateTodoList() : app.models.Task[] {
         
         var todoList : app.models.Task[] = [];
-        
         
         todoList.push(new app.models.Task(2, "Encher o tanque", new Date(2015, 11, 29, 0, 0, 0, 0), false));       
         todoList.push(new app.models.Task(3, "Calibrar os pneus", new Date(2015, 11, 30, 0, 0, 0, 0), false));       

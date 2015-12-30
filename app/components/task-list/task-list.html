@@ -1,10 +1,10 @@
 <div>
     <div layout="row" layout-wrap layout-align="space-between end">
         <div layout="row" layout-align="center center">
-            <md-button class="md-raised md-fab md-mini md-primary" aria-label="New">
+            <md-button class="md-raised md-fab md-mini md-primary" aria-label="New" ng-click="vm.addTask()">
                 <md-icon md-svg-src="/images/add.svg"></md-icon>
             </md-button>
-            <md-button class="md-raised md-fab md-mini" aria-label="Refresh" ng-click="vm.loadTask()">
+            <md-button class="md-raised md-fab md-mini" aria-label="Refresh" ng-click="vm.loadTasks()">
                 <md-icon md-svg-src="/images/refresh.svg"></md-icon>
             </md-button>
             
@@ -38,7 +38,7 @@
 </div>
 
 <md-list>
-    <md-list-item class="md-2-line" ng-click="doSomethingElse()" ng-repeat="task in vm.taskList | filter: searchText || '' | filter: (vm.hideDoneTasks || '') && {isDone: false}">
+    <md-list-item class="md-2-line" ng-click="doSomethingElse()" ng-repeat="task in vm.taskList | orderBy:['dueDate','title'] | filter: searchText || '' | filter: (vm.hideDoneTasks || '') && {isDone: false}">
         <!--<task-list-item id="{{task.id}}" title="{{task.title}}" dueDate="{{task.dueDate}}" isDone="{{task.isDone}}"></task-list-item>-->
         <!--ng-style="{'background-color': vm.getColor(task) }">-->
         <md-checkbox ng-model="task.isDone" ng-change="vm.isDoneChanged(task)"></md-checkbox>
@@ -48,7 +48,7 @@
         </div>
         <div class="md-list-item-text" style="text-align: right;">
             
-            <md-button class="md-fab md-mini" aria-label="Edit" ng-disabled="task.isDone">
+            <md-button class="md-fab md-mini" aria-label="Edit" ng-disabled="task.isDone" ng-click="vm.editTask(task)">
                 <md-icon md-svg-src="/images/edit.svg"></md-icon>
             </md-button>
             
@@ -58,7 +58,7 @@
                        dialog-title="Are you sure you want delete this task?" 
                        dialog-message="This action can't be undone."  
                        ng-disabled="task.isDone"
-                       ng-click="vm.deleteTask(task)" >
+                       ng-click="vm.deleteTask(task)">
                 <md-icon md-svg-src="/images/delete.svg"></md-icon>    
             </md-button>
         </div>

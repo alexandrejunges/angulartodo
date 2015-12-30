@@ -1,15 +1,40 @@
-  <md-input-container>
-      Creating a task...
-      
-    <label>Title</label>
-    <input name="title" ng-model="task.title" required>
-    <div ng-messages="userForm.lastName.$error">
-        <div ng-message="required">Title is required!</div>
-    </div>
+<md-dialog flex="90" ng-cloak id="taskDetailContainer">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Create task</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="vm.cancel()">
+                <md-icon md-svg-src="/images/close.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
     
-    <label>Due Date</label>
-    <input name="dueDate" ng-model="task.dueDate" required>
-    <div ng-messages="userForm.lastName.$error">
-        <div ng-message="required">Due date is required!</div>
-    </div>
-  </md-input-container>
+    <md-dialog-content style="padding: 20px">
+        <form name="taskForm">
+        <md-input-container  class="md-block">
+            <label>Title</label>
+            <input name="title" ng-model="vm.task.title" required>
+            <div ng-messages="taskForm.title.$error">
+                <div ng-message="required">This is required</div>
+            </div>
+        </md-input-container>
+        
+        <span flex></span>
+        
+        <div>
+            <span style="display: block">Due date</span>
+            <md-datepicker name="dueDate"  md-placeholder="Enter date" ng-model="vm.task.dueDate" style="color: black" required>
+            </md-datepicker>
+            <div class="validation-messages" ng-messages="taskForm.dueDate.$error">
+                <div ng-message="required">This is required</div>
+            </div>
+        </div>
+        </form>
+    </md-dialog-content>   
+        
+    <md-dialog-actions layout="row">
+        <span flex></span>
+        <md-button ng-click="vm.cancel()">Cancel</md-button>
+        <md-button ng-click="vm.save()" style="margin-right:20px;">{{vm.actionName}}</md-button>
+    </md-dialog-actions>    
+</md-dialog>
