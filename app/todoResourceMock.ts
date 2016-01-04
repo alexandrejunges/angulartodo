@@ -111,7 +111,7 @@ module app.mock {
 
         function getTaskList() : app.models.Task[] {
             var lista = localStorage.get(localStorageKey) as app.models.Task[];
-            return lista;
+            return lista || [];
         }
         
         function setTaskList(taskList: app.models.Task[]) {
