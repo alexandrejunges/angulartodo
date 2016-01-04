@@ -14,11 +14,12 @@ module app.models {
         
         isDelayed() {            
             return !this.isDone && 
-                this.dueDate.getTime() < new Date().getTime();
+                        this.dueDate.getTime() < app.common.date.today().getTime();
         }
         
-        isDueToday() {
-            return this.dueDate.getTime() == new Date().getTime();
+        isDueToday() {            
+            return !this.isDone && 
+                        this.dueDate.getTime() == app.common.date.today().getTime();
         }
     }
 }

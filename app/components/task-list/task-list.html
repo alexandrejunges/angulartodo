@@ -37,16 +37,24 @@
     </md-autocomplete>
 </div>
 
+<!--<task-list-item id="{{task.id}}" title="{{task.title}}" dueDate="{{task.dueDate}}" isDone="{{task.isDone}}"></task-list-item>-->
 <md-list>
-    <md-list-item class="md-2-line" ng-click="doSomethingElse()" ng-repeat="task in vm.taskList | orderBy:['dueDate','title'] | filter: searchText || '' | filter: (vm.hideDoneTasks || '') && {isDone: false}">
-        <!--<task-list-item id="{{task.id}}" title="{{task.title}}" dueDate="{{task.dueDate}}" isDone="{{task.isDone}}"></task-list-item>-->
-        <!--ng-style="{'background-color': vm.getColor(task) }">-->
+    <!--The ng-click is added to just mark the task as done when the user click the checkbox. Without it the checkbox would get checked when the user clicked in any point of the item list. -->
+    <md-list-item 
+        class="md-2-line" 
+        ng-click="doSomethingElse()"  
+        ng-repeat="task in vm.taskList | orderBy:['dueDate','title'] | filter: searchText || '' | filter: (vm.hideDoneTasks || '') && {isDone: false}"
+        ng-style="{'color': vm.getColor(task) }">
         <md-checkbox ng-model="task.isDone" ng-change="vm.isDoneChanged(task)"></md-checkbox>
         <div class="md-list-item-text">
             <h3>{{ task.title }}</h3>
             <p>Due to: {{ task.dueDate | date }}</p>
         </div>
         <div class="md-list-item-text" style="text-align: right;">
+            
+            <md-icon md-svg-src="/images/done.svg" alt="Done" ng-show="task.isDone"></md-icon>
+            <md-icon md-svg-src="/images/today.svg" ng-show="task.isDueToday()"></md-icon>
+            <md-icon md-svg-src="/images/attention.svg" ng-show="task.isDelayed()"></md-icon>
             
             <md-button class="md-fab md-mini" aria-label="Edit" ng-disabled="task.isDone" ng-click="vm.editTask(task)">
                 <md-icon md-svg-src="/images/edit.svg"></md-icon>

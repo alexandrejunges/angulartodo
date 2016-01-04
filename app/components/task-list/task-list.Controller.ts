@@ -128,8 +128,9 @@ module app.components {
             return deferred.promise;
         }
         
+        // Deprecated
         getColor(task : app.models.Task) {
-            return task.isDone ? '#72d572' : task.isDelayed() ? '#DE4545' : task.isDueToday() ? '#E6E66A' : 'transparent'
+            return task.isDone ? 'transparent' : task.isDueToday() ? '#E6E66A' : task.isDelayed() ? 'rgba(245, 32, 32, 0.55)' : 'transparent';
         }
     }
     

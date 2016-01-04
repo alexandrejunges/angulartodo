@@ -24,7 +24,13 @@ module app.components {
             
             if (currentTask) {
                 this.isEdition = true;
-                this.task = currentTask;
+                
+                // Creates a copy of the original task. This is important in case the user cancel the edition.
+                this.task = new app.models.Task(
+                    currentTask.id, 
+                    currentTask.title, 
+                    currentTask.dueDate, 
+                    currentTask.isDone);
             }
             else {
                 this.isEdition = false;
