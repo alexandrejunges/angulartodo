@@ -4,43 +4,46 @@
         <meta charset="UTF-8">
         <title>Angular TODO App</title>
    
-        <!--Style Sheets -->
-        <link rel="stylesheet" href="styles/lib/angular-material.css">
-        <link rel="stylesheet" href="styles/main.css">
+        <!-- inject:css -->
+            <link rel="stylesheet" href="styles/lib/angular-material.css">
+            <link rel="stylesheet" href="styles/main.css">
+        <!-- endinject -->
            
-        <!--Library Scripts-->
-        <script src="scripts/angular.js"></script>
-        <script src="scripts/angular-animate.js"></script>
-        <script src="scripts/angular-aria.js"></script>
-        <script src="scripts/angular-messages.js"></script>
-        <script src="scripts/angular-resource.js"></script>
-        <script src="scripts/angular-mocks.js"></script>
-        <script src="scripts/angular-route.js"></script>
-        <script src="scripts/angular-local-storage.js"></script>
+        <!-- inject:js -->
+            <!--Library Scripts-->
+            <script src="node_modules/angular/angular.js"></script>
+            <script src="node_modules/angular-animate/angular-animate.js"></script>
+            <script src="node_modules/angular-aria/angular-aria.js"></script>
+            <script src="node_modules/angular-messages/angular-messages.js"></script>
+            <script src="node_modules/angular-resource/angular-resource.js"></script>
+            <script src="node_modules/angular-mocks/angular-mocks.js"></script>
+            <script src="node_modules/angular-route/angular-route.js"></script>
+            <script src="node_modules/angular-local-storage/dist/angular-local-storage.js"></script>
+            
+            <script src="scripts/angular-material.js"></script>
+            
+            <!--App Script -->
+            <script src="build/js/app.js"></script>
+            
+            <!--Mock script-->
+            <script src="build/js/todoResourceMock.js"></script>
+            
+            <!--Domain-->
+            <script src="build/js/models/task.js"></script>
+            
+            <!--Services-->
+            <script src="build/js/services/dataAccessService.js"></script>
+            <script src="build/js/services/searchService.js"></script>
+            <script src="build/js/common/DateUtils.js"></script>
+            
+            <!--Attributes-->
+            <script src="build/js/attributes/confirm-click-attribute.js"></script>
         
-        <script src="scripts/angular-material.js"></script>
-        
-        <!--App Script -->
-        <script src="dist/js/app.js"></script>
-        
-        <!--Mock script-->
-        <script src="dist/js/todoResourceMock.js"></script>
-        
-        <!--Domain-->
-        <script src="dist/js/models/task.js"></script>
-        
-        <!--Services-->
-        <script src="dist/js/services/dataAccessService.js"></script>
-        <script src="dist/js/services/searchService.js"></script>
-        <script src="dist/js/common/DateUtils.js"></script>
-        
-        <!--Attributes-->
-        <script src="dist/js/attributes/confirm-click-attribute.js"></script>
-        
-        <!--Controllers-->
-        <script src="dist/js/components/task-detail/task-detail.Controller.js"></script>
-        <script src="dist/js/components/task-list/task-list.Controller.js"></script>
-        <script src="dist/js/components/task-list-item/task-list-item.Controller.js"></script>
+            <!--Controllers-->
+            <script src="build/js/attributes/confirm-click-attribute.js"></script>
+            <script src="build/js/components/task-list/task-list.Controller.js"></script>
+            <script src="build/js/components/task-list-item/task-list-item.Controller.js"></script>        
+        <!-- endinject -->
     </head>
     
     <body ng-app="angulartodo">        
