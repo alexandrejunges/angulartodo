@@ -11,7 +11,6 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     notify = require('gulp-notify'),
     cache = require('gulp-cache'),
-    livereload = require('gulp-livereload'),
     del = require('del'),
     ts = require('gulp-typescript'),
     less = require('gulp-less'),
@@ -20,7 +19,8 @@ var gulp = require('gulp'),
     gulpif = require('gulp-if'),
     gulpifelse = require('gulp-if-else'),
     gulpRunSequence = require('gulp-run-sequence'),
-    order = require('gulp-order');
+    order = require('gulp-order'),
+    watch = require('gulp-watch');
 
 var dirDev = 'build';
 var dirRelease = 'dist';
@@ -39,15 +39,10 @@ function getOutputPath(sufixo) {
     return path;
 }
 
-gulp.task('serve', ['build'], function() {
-    connect.server({
-        port: 8080
-    });
-});
-
+gulp.task('default', ['build', 'connect']);
 
 gulp.task('build', function() {
-    gulpRunSequence('clean', ['build-ts', 'node-modules', 'build-less', 'vendor-css', 'images'], 'build-index');
+    gulpRunSequence('clean', ['build-ts', 'node-modules', 'build-less', 'vendor-css', 'images', 'html'], 'build-index', 'watch');
 });
 
 gulp.task('clean', function() {
@@ -57,13 +52,11 @@ gulp.task('clean', function() {
 // Compiles typescript files and put them into dist directory
 gulp.task('build-ts', function() {
     return gulp.src('app/**/*.ts')
-        .pipe(ts({
-            noImplicitAny: true,
-            out: 'main.js'
-        }))
+        .pipe(ts())
         // .pipe(gulpif(argv.prod, rename({suffix: '.min'})))
         // .pipe(gulpif(argv.prod, uglify()))
-        .pipe(gulp.dest(getOutputPath('js')));
+        .pipe(gulp.dest(getOutputPath('app')))
+        .pipe(connect.reload());
 });
 
 
@@ -79,7 +72,8 @@ gulp.task('node-modules', function() {
             'node_modules/angular-route/angular-route.js',
             'node_modules/angular-local-storage/dist/angular-local-storage.js',
             'node_modules/angular-material/angular-material.js'])
-        .pipe(gulp.dest(getOutputPath('js')));
+        .pipe(gulp.dest(getOutputPath('scripts')))
+        .pipe(connect.reload());
 });
 
 // Minifies css files
@@ -88,7 +82,8 @@ gulp.task('build-less', function() {
         .pipe(less())
         .pipe(gulpif(argv.prod, rename({suffix: '.min'})))
         .pipe(gulpif(argv.prod, minifycss()))
-        .pipe(gulp.dest(getOutputPath('css')));
+        .pipe(gulp.dest(getOutputPath('styles')))
+        .pipe(connect.reload());
 });
 
 gulp.task('vendor-css', function() {
@@ -96,14 +91,22 @@ gulp.task('vendor-css', function() {
         .pipe(gulpif(argv.prod, concat('vendor.css')))
         .pipe(gulpif(argv.prod, rename({suffix: '.min'})))
         .pipe(gulpif(argv.prod, minifycss()))
-        .pipe(gulp.dest(getOutputPath('css')));
+        .pipe(gulp.dest(getOutputPath('styles')))
+        .pipe(connect.reload());
 });
 
 gulp.task('images', function() {
     return gulp.src('images/**/*')
         .pipe(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true }))
         .pipe(gulp.dest(getOutputPath('images')))
-        .pipe(gulp.dest(getOutputPath('images')));
+        .pipe(gulp.dest(getOutputPath('images')))
+        .pipe(connect.reload());
+});
+
+gulp.task('html', function () {
+    gulp.src('app/**/*.html')
+        .pipe(gulp.dest(getOutputPath('app')))
+        .pipe(connect.reload());
 });
 
 gulp.task('build-index', function () {
@@ -122,28 +125,30 @@ gulp.task('build-index', function () {
                         '*/angular-local-storage.js',
                         '*/angular-material.js',
                         '*.js'
-                    ]));
+                    ], {read: false}));
 
     return index
-        .pipe(inject(sources))
-        .pipe(gulp.dest(getOutputPath()));
+        .pipe(inject(sources, {
+            ignorePath: getOutputPath(),
+            addRootSlash: false
+        }))
+        .pipe(gulp.dest(getOutputPath()))
+        .pipe(connect.reload());
 });
 
-// gulp.task('watch', function() {
-// 
-//     // Watch .js files
-//     gulp.watch('app/**/*.ts', ['scripts']);
-//     
-//     // Watch .scss files
-//     gulp.watch('styles/**/*.css', ['styles']);
-// 
-//     // Watch image files
-//     gulp.watch('src/images/**/*', ['images']);
-// 
-//     // Create LiveReload server
-//     livereload.listen();
-// 
-//     // Watch any files in dist/, reload on change
-//     gulp.watch(['dist/**']).on('change', livereload.changed);
-// 
-// });
+gulp.task('watch', function() {
+    gulp.watch(['app/*.html'], ['html']);
+    gulp.watch(['index.html'], ['build-index']);
+    gulp.watch('app/**/*.ts', ['build-ts']);   
+    gulp.watch('styles/**/*.less', ['build-less']);
+    gulp.watch('images/**/*', ['images']);
+});
+
+gulp.task('connect', function() {
+    connect.server({
+        //port: 8080,
+        livereload: true,
+        root: [getOutputPath()],
+        open: { browser: 'chrome' }
+    });
+});
