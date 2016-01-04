@@ -18,8 +18,8 @@ module app.components {
         static $inject = ["$routeParams", "dataAccessService", "$mdDialog", "$scope", 'currentTask']
         constructor (private $routeParams : ITodoParams,
                      private dataAccessService : app.services.DataAccessService,
-                     private $mdDialog : any,
-                     private $scope : any,
+                     private $mdDialog : ng.material.IDialogService,
+                     private $scope : ng.IScope,
                      currentTask : app.models.Task) {
             
             if (currentTask) {

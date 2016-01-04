@@ -10,10 +10,10 @@ module app.components {
         constructor(private dataAccessService: app.services.DataAccessService,
                     private searchService: app.services.SearchService,
                     private $q: ng.IQService,
-                    private $mdToast: any,
-                    private $mdDialog: any,
-                    private $mdMedia: any,
-                    private $scope: any) {
+                    private $mdToast: ng.material.IToastService,
+                    private $mdDialog: ng.material.IDialogService,
+                    private $mdMedia: ng.material.IMedia,
+                    private $scope: ng.IScope) {
             
             this.taskList = [];
             
@@ -28,7 +28,7 @@ module app.components {
             todoResource.query((data: app.models.Task[]) => {
                 this.taskList = data.map(function(item) {
                     // hack to treat the date the same way
-                    return new app.models.Task(item.id, item.title, new Date(item.dueDate.toString()), item.isDone);
+                    return new app.models.Task(item.id, item.title, new Date(item.dueDate), item.isDone);
                 });
             });
         }
@@ -43,8 +43,7 @@ module app.components {
                 controllerAs: 'vm',
                 templateUrl: '/app/components/task-detail/task-detail.html',
                 parent: angular.element(document.body),
-                clickOutsideToClose: true,
-                fullscreen: true
+                clickOutsideToClose: true
             }).then(function(answer) {
                 if(answer) {
                     self.loadTasks();
@@ -55,7 +54,6 @@ module app.components {
         
          editTask(task: app.models.Task) {
             var self = this;
-            var useFullScreen = (this.$mdMedia('sm') || this.$mdMedia('xs'));
             
             this.$mdDialog.show({
                 locals: { currentTask: task },
@@ -63,8 +61,7 @@ module app.components {
                 controllerAs: 'vm',
                 templateUrl: '/app/components/task-detail/task-detail.html',
                 parent: angular.element(document.body),
-                clickOutsideToClose: true,
-                fullscreen: useFullScreen
+                clickOutsideToClose: true
             }).then(function(answer) {
                 if(answer) {
                     self.loadTasks();
