@@ -1,14 +1,25 @@
-<md-checkbox ng-model="vm.isDone"></md-checkbox>
+<md-checkbox ng-model="task.isDone" ng-change="vm.isDoneChanged(task)"></md-checkbox>
 <div class="md-list-item-text">
-    <h3>{{ vm.title }}</h3>
-    <!--More info about i18n: https://docs.angularjs.org/guide/i18n-->
-    <p>Due to: {{ vm.dueDate | date }}</p>
+    <h3>{{ task.title }}</h3>
+    <p>Due to: {{ task.dueDate | date }}</p>
 </div>
 <div class="md-list-item-text" style="text-align: right;">
-    <md-button class="md-fab md-mini" aria-label="Edit">
+    
+    <!--<md-icon md-svg-src="/images/done.svg" alt="Done" ng-show="task.isDone"></md-icon>-->
+    <md-icon md-svg-src="/images/today.svg" ng-show="task.isDueToday()"></md-icon>
+    <md-icon md-svg-src="/images/attention.svg" ng-show="task.isDelayed()"></md-icon>
+    
+    <md-button class="md-fab md-mini" aria-label="Edit" ng-disabled="task.isDone" ng-click="vm.editTask(task)">
         <md-icon md-svg-src="/images/edit.svg"></md-icon>
     </md-button>
-    <md-button class="md-fab md-mini md-warn" aria-label="Remove" confirm-click="Are you sure you want delete this taks?" ng-click="vm.deleteTask(vm.id)">
+    
+    <md-button class="md-fab md-mini md-warn" 
+                aria-label="Remove"
+                confirm-click 
+                dialog-title="Are you sure you want delete this task?" 
+                dialog-message="This action can't be undone."  
+                ng-disabled="task.isDone"
+                ng-click="vm.deleteTask(task)">
         <md-icon md-svg-src="/images/delete.svg"></md-icon>    
     </md-button>
 </div>

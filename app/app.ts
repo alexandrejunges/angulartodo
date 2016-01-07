@@ -9,21 +9,17 @@ module app {
     module.config(routeConfig);
     module.config(themeConfig);
    
-   // Configure app routes - $routeProvider is injected
+    // Configure app routes - $routeProvider is injected
     routeConfig.$inject = ["$routeProvider"];
     function routeConfig($routeProvider: ng.route.IRouteProvider): void {
         $routeProvider
             .when("/",
                 {
-                    templateUrl: "/app/components/task-list/task-list.html",
-                    controllerAs: "vm",
-                    controller: "taskListController"
+                    template: "<task-list></task-list>",
                 })
             .when("/taskDetail/:taskId",
                 {
-                    templateUrl: "/app/components/task-detail/task-detail.html",
-                    controllerAs: 'vm',
-                    controller: "taskDetailController"
+                    template: "<task-detail></task-detail>",
                 })
             .otherwise("/");
     }

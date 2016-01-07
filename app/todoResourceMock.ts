@@ -104,7 +104,7 @@ module app.mock {
         });        
         
         // When the url has 'app', the request pass
-        $httpBackend.whenGET(/^\/app\//).passThrough();
+        $httpBackend.whenGET(/^\app\//).passThrough();
         
         // When the url has 'images', the request pass
         $httpBackend.whenGET(/^\/images\//).passThrough();

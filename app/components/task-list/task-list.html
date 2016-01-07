@@ -41,10 +41,10 @@
 <md-list>
     <!--The ng-click is added to just mark the task as done when the user click the checkbox. Without it the checkbox would get checked when the user clicked in any point of the item list. -->
     <md-list-item 
-        class="md-2-line" 
-        ng-click="doSomethingElse()"  
-        ng-repeat="task in vm.taskList | orderBy:['dueDate','title'] | filter: searchText || '' | filter: (vm.hideDoneTasks || '') && {isDone: false}"
-        ng-style="{'color': vm.getColor(task) }">
+            class="md-2-line" 
+            ng-click="doSomethingElse()"  
+            ng-repeat="task in vm.taskList | orderBy:['dueDate','title'] | filter: searchText || '' | filter: (vm.hideDoneTasks || '') && {isDone: false}"
+            ng-style="{'color': vm.getColor(task) }">
         <md-checkbox ng-model="task.isDone" ng-change="vm.isDoneChanged(task)"></md-checkbox>
         <div class="md-list-item-text">
             <h3>{{ task.title }}</h3>

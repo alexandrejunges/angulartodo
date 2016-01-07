@@ -14,7 +14,7 @@ module app.components {
                     private $mdDialog: ng.material.IDialogService,
                     private $mdMedia: ng.material.IMedia,
                     private $scope: ng.IScope) {
-            
+                                   
             this.taskList = [];
             
             this.searchText = '';
@@ -42,6 +42,7 @@ module app.components {
                 controller: TaskDetailController,
                 controllerAs: 'vm',
                 templateUrl: '/app/components/task-detail/task-detail.html',
+                //template: '<task-detail currentTask="null"></task-detail>',
                 parent: angular.element(document.body),
                 clickOutsideToClose: true
             }).then(function(answer) {
@@ -60,6 +61,7 @@ module app.components {
                 controller: TaskDetailController,
                 controllerAs: 'vm',
                 templateUrl: '/app/components/task-detail/task-detail.html',
+                //template: '<task-detail currentTask="task"></task-detail>',
                 parent: angular.element(document.body),
                 clickOutsideToClose: true
             }).then(function(answer) {
